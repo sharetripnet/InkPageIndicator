@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -29,6 +30,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            afterEvaluate { // Ensures the Android component is properly evaluated
+                from(components["release"])
+            }
+            groupId = "com.github.sharetrip" // Replace with your group ID
+            artifactId = "InkPageIndicator"          // Replace with your artifact ID
+            version = "v0.0.4"                 // Replace with your version
+        }
     }
 }
 
